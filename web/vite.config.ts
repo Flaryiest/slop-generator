@@ -9,5 +9,15 @@ export default defineConfig({
       { find: '@', replacement: '/src' },
       { find: '@dashboard', replacement: '/src/pages/dashboard' }
     ]
+  },
+  // Required headers for ffmpeg.wasm SharedArrayBuffer support
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    }
+  },
+  optimizeDeps: {
+    exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
   }
 });

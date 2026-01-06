@@ -11,6 +11,8 @@
     "prettier": "prettier --write ."
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "react": "^19.0.0",
     "react-checkmark": "^2.1.1",
     "react-dom": "^19.0.0",
