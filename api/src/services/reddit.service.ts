@@ -107,9 +107,9 @@ export function estimateReadingDuration(text: string): number {
 }
 
 /**
- * Truncates content to fit within a maximum duration (60 seconds)
+ * Truncates content to fit within a maximum duration (120 seconds / 2 minutes)
  */
-export function truncateForDuration(content: string, maxSeconds: number = 60): string {
+export function truncateForDuration(content: string, maxSeconds: number = 120): string {
   const wordsPerSecond = 150 / 60;
   const maxWords = Math.floor(maxSeconds * wordsPerSecond);
   

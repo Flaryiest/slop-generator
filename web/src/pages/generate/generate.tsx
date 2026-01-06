@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './generate.module.css';
 import { loadFFmpeg, generateVideo, downloadBlob, VideoProgress } from '@/services/ffmpeg.service';
-import { generateSpeech, preloadVoices, TTSResult } from '@/services/tts.service';
+import { generateSpeech, TTSResult } from '@/services/tts.service';
 import { generateSubtitleEntries, estimateWordTimings } from '@/services/subtitle.service';
 
 interface RedditData {
@@ -77,10 +77,6 @@ export default function GeneratePage() {
     setProgress({ progress: 0, message: 'Initializing...' });
 
     try {
-      // Preload voices
-      await preloadVoices();
-      setProgress({ progress: 5, message: 'Preparing text-to-speech...' });
-
       // Generate the full text for narration
       const fullText = `${redditData.title}. Posted by ${redditData.author}. ${redditData.content}`;
       

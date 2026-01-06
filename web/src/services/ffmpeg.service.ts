@@ -84,14 +84,14 @@ export async function generateVideo(
   
   onProgress?.({ progress: 30, message: 'Loading audio...' });
   
-  // Write audio file
+  // Write audio file (Piper outputs WAV format)
   const audioData = new Uint8Array(await audioBlob.arrayBuffer());
-  await ff.writeFile('audio.mp3', audioData);
+  await ff.writeFile('audio.wav', audioData);
   
   onProgress?.({ progress: 40, message: 'Compositing video (this takes ~1-2 min)...' });
   
-  // Calculate video duration (cap at 60 seconds)
-  const duration = Math.min(audioDuration, 60);
+  // Calculate video duration (cap at 2 minutes)
+  const duration = Math.min(audioDuration, 120);
   
   // Build drawtext filter chain for subtitles
   // Each subtitle gets its own drawtext filter with enable condition
@@ -120,16 +120,17 @@ export async function generateVideo(
   await ff.exec([
     '-stream_loop', '-1',           // Loop video indefinitely
     '-i', 'background.mp4',          // Input video
-    '-i', 'audio.mp3',               // Input audio
+    '-i', 'audio.wav',               // Input audio (WAV from Piper TTS)
     '-vf', videoFilters,
+    '-map', '0:v:0',                 // Map video from first input
+    '-map', '1:a:0',                 // Map audio from second input
     '-c:v', 'libx264',               // Video codec
     '-preset', 'ultrafast',          // FASTEST encoding
     '-tune', 'fastdecode',           // Optimize for fast decoding too
     '-crf', '28',                    // Lower quality = faster (28 is still decent)
     '-c:a', 'aac',                   // Audio codec
-    '-b:a', '96k',                   // Lower audio bitrate
+    '-b:a', '128k',                  // Audio bitrate
     '-t', String(duration),          // Duration limit
-    '-shortest',                     // End when shortest input ends
     '-movflags', '+faststart',       // Enable fast start for web playback
     '-y',                            // Overwrite output
     'output.mp4'
@@ -144,7 +145,7 @@ export async function generateVideo(
   try {
     await ff.deleteFile('font.ttf');
     await ff.deleteFile('background.mp4');
-    await ff.deleteFile('audio.mp3');
+    await ff.deleteFile('audio.wav');
     await ff.deleteFile('output.mp4');
   } catch (e) {
     console.warn('Cleanup warning:', e);
