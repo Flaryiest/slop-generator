@@ -187,7 +187,7 @@ export default function GeneratePage() {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h1>🎬 Reddit Reel Generator</h1>
+        <h1>Reddit Reel Generator</h1>
         <p>Transform Reddit stories into viral Instagram Reels</p>
       </header>
 
@@ -245,9 +245,9 @@ export default function GeneratePage() {
               <p>Posted by u/{redditData.author} in r/{redditData.subreddit}</p>
               
               <div className={styles.previewMeta}>
-                <span>⏱️ ~{redditData.estimatedDuration}s</span>
+                <span>~{redditData.estimatedDuration}s</span>
                 {redditData.wasTruncated && (
-                  <span>✂️ Content truncated to fit 60s</span>
+                  <span>Content truncated to fit 60s</span>
                 )}
               </div>
 
@@ -257,7 +257,7 @@ export default function GeneratePage() {
             </div>
 
             <div className={styles.warning}>
-              ⚠️ Note: The browser's text-to-speech will narrate the content. For the best experience, ensure your speakers are on.
+              Note: The browser's text-to-speech will narrate the content. For the best experience, ensure your speakers are on.
             </div>
 
             <div className={styles.actions}>
@@ -265,13 +265,13 @@ export default function GeneratePage() {
                 className={`${styles.button} ${styles.secondaryButton}`}
                 onClick={() => setStep('input')}
               >
-                ← Back
+                Back
               </button>
               <button
                 className={`${styles.button} ${styles.primaryButton}`}
                 onClick={handleGenerate}
               >
-                Generate Video 🚀
+                Generate Video
               </button>
             </div>
           </>
@@ -315,7 +315,7 @@ export default function GeneratePage() {
                 className={`${styles.button} ${styles.primaryButton}`}
                 onClick={handleDownload}
               >
-                Download Video ⬇️
+                Download Video
               </button>
             </div>
           </>
@@ -324,7 +324,7 @@ export default function GeneratePage() {
         {/* Error display */}
         {error && (
           <div className={styles.error}>
-            ❌ {error}
+            {error}
           </div>
         )}
       </div>
