@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './generate.module.css';
 import { loadFFmpeg, generateVideo, downloadBlob, VideoProgress } from '@/services/ffmpeg.service';
 import { generateSpeech, TTSResult } from '@/services/tts.service';
 import { generateSubtitleEntries, estimateWordTimings } from '@/services/subtitle.service';
+import { saveVideo, type VideoMetadata } from '@/services/videoStorage.service';
+import Sidebar from '@/components/sidebar/sidebar';
 
 interface RedditData {
   title: string;
@@ -24,6 +26,7 @@ export default function GeneratePage() {
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [sidebarRefresh, setSidebarRefresh] = useState(0);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -127,16 +130,32 @@ export default function GeneratePage() {
       );
 
       // Create object URL for preview
-      const url = URL.createObjectURL(generatedBlob);
+      const previewUrl = URL.createObjectURL(generatedBlob);
       
       setVideoBlob(generatedBlob);
-      setVideoUrl(url);
+      setVideoUrl(previewUrl);
       setStep('complete');
+
+      // Auto-save to IndexedDB
+      try {
+        await saveVideo(generatedBlob, {
+          title: redditData.title,
+          author: redditData.author,
+          subreddit: redditData.subreddit,
+          redditUrl: url,
+          duration: ttsResult.duration,
+          tags: [redditData.subreddit],
+        });
+        // Trigger sidebar refresh
+        setSidebarRefresh((n) => n + 1);
+      } catch (saveErr) {
+        console.warn('Failed to auto-save video:', saveErr);
+      }
 
       // Set video preview after state update
       setTimeout(() => {
         if (videoRef.current) {
-          videoRef.current.src = url;
+          videoRef.current.src = previewUrl;
           videoRef.current.load();
         }
       }, 100);
@@ -174,6 +193,32 @@ export default function GeneratePage() {
     }
   };
 
+  // Handle selecting a saved video from the sidebar
+  const handleSavedVideoSelect = useCallback((blob: Blob, metadata: VideoMetadata) => {
+    // Clean up old video URL
+    if (videoUrl) {
+      URL.revokeObjectURL(videoUrl);
+    }
+    const url = URL.createObjectURL(blob);
+    setVideoBlob(blob);
+    setVideoUrl(url);
+    setRedditData({
+      title: metadata.title,
+      author: metadata.author,
+      content: '',
+      subreddit: metadata.subreddit,
+      estimatedDuration: metadata.duration,
+      wasTruncated: false,
+    });
+    setStep('complete');
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.src = url;
+        videoRef.current.load();
+      }
+    }, 100);
+  }, [videoUrl]);
+
   const getStepStatus = (s: Step) => {
     const order: Step[] = ['input', 'preview', 'generating', 'complete'];
     const currentIndex = order.indexOf(step);
@@ -185,7 +230,12 @@ export default function GeneratePage() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.pageLayout}>
+      <Sidebar
+        onVideoSelect={handleSavedVideoSelect}
+        refreshTrigger={sidebarRefresh}
+      />
+      <div className={styles.container}>
       <header className={styles.header}>
         <h1>Reddit Reel Generator</h1>
         <p>Transform Reddit stories into viral Instagram Reels</p>
@@ -328,6 +378,7 @@ export default function GeneratePage() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

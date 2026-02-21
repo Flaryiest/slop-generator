@@ -13,7 +13,8 @@ video.post('/scrape', async (req, res) => {
     const { url } = req.body;
 
     if (!url) {
-      return res.status(400).json({ error: 'URL is required' });
+      res.status(400).json({ error: 'URL is required' });
+      return;
     }
 
     const post = await scrapeRedditPost(url);
@@ -22,7 +23,7 @@ video.post('/scrape', async (req, res) => {
     const truncatedContent = truncateForDuration(post.content, 115); // Leave 5s buffer for title
     const estimatedDuration = estimateReadingDuration(post.title + ' ' + truncatedContent);
 
-    return res.json({
+    res.json({
       success: true,
       data: {
         title: post.title,
@@ -36,7 +37,7 @@ video.post('/scrape', async (req, res) => {
     });
   } catch (error) {
     console.error('Scrape error:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: error instanceof Error ? error.message : 'Failed to scrape Reddit post' 
     });
   }
@@ -59,11 +60,13 @@ video.post('/tts', async (req, res) => {
     const { text } = req.body;
 
     if (!text) {
-      return res.status(400).json({ error: 'Text is required' });
+      res.status(400).json({ error: 'Text is required' });
+      return;
     }
 
     if (text.length > 5000) {
-      return res.status(400).json({ error: 'Text too long (max 5000 characters)' });
+      res.status(400).json({ error: 'Text too long (max 5000 characters)' });
+      return;
     }
 
     console.log('Generating TTS for text:', text.substring(0, 100) + '...');
@@ -72,7 +75,7 @@ video.post('/tts', async (req, res) => {
     const wordTimings = generateWordTimings(text, duration);
 
     // Return audio as base64 with metadata
-    return res.json({
+    res.json({
       success: true,
       data: {
         audio: audioBuffer.toString('base64'),
@@ -83,7 +86,7 @@ video.post('/tts', async (req, res) => {
     });
   } catch (error) {
     console.error('TTS error:', error);
-    return res.status(500).json({ 
+    res.status(500).json({ 
       error: error instanceof Error ? error.message : 'Failed to generate speech' 
     });
   }

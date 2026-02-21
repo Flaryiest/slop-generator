@@ -1,0 +1,435 @@
+/* ─── Sidebar Container ───────────────────────────────────────────────────── */
+
+.sidebar {
+  width: 320px;
+  min-width: 320px;
+  height: 100vh;
+  background: rgba(10, 10, 30, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+}
+
+.collapsedSidebar {
+  width: 48px;
+  min-width: 48px;
+  height: 100vh;
+  background: rgba(10, 10, 30, 0.95);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.expandButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: none !important;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.expandButton:hover {
+  color: #fff;
+}
+
+.expandIcon {
+  font-size: 1rem;
+}
+
+.expandBadge {
+  font-size: 0.7rem;
+  background: rgba(102, 126, 234, 0.3);
+  color: #a8b4ff;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+.sidebarHeader {
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebarTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.videoCount {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.collapseButton {
+  background: none !important;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.collapseButton:hover {
+  color: #fff;
+}
+
+/* ─── Search ──────────────────────────────────────────────────────────────── */
+
+.searchBox {
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.searchInput:focus {
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
+.searchInput::placeholder {
+  color: #555;
+}
+
+.filterToggle {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.filterToggle:hover {
+  border-color: rgba(102, 126, 234, 0.5) !important;
+  color: #fff;
+}
+
+.filterToggleActive {
+  background: rgba(102, 126, 234, 0.2) !important;
+  border-color: rgba(102, 126, 234, 0.4) !important;
+  color: #a8b4ff;
+}
+
+/* ─── Filters Panel ───────────────────────────────────────────────────────── */
+
+.filtersPanel {
+  padding: 0 1rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterGroup {
+  margin-bottom: 0.6rem;
+}
+
+.filterLabel {
+  display: block;
+  font-size: 0.7rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterSelect {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ccc;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+}
+
+.filterSelect option {
+  background: #1a1a2e;
+  color: #ccc;
+}
+
+.sortControls {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.sortControls .filterSelect {
+  flex: 1;
+}
+
+.sortDirectionButton {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.sortDirectionButton:hover {
+  background: rgba(102, 126, 234, 0.2) !important;
+  color: #fff;
+}
+
+.algorithmInfo {
+  font-size: 0.65rem;
+  color: #555;
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  border-left: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+.clearFilters {
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clearFilters:hover {
+  background: rgba(255, 107, 107, 0.1) !important;
+  border-color: rgba(255, 107, 107, 0.3) !important;
+  color: #ff6b6b;
+}
+
+/* ─── Video List ──────────────────────────────────────────────────────────── */
+
+.videoList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.videoList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.videoList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.videoList::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* ─── Video Card ──────────────────────────────────────────────────────────── */
+
+.videoCard {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+  margin-bottom: 0.25rem;
+  position: relative;
+}
+
+.videoCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.videoCard:hover .videoActions {
+  opacity: 1;
+}
+
+/* ─── Thumbnail ───────────────────────────────────────────────────────────── */
+
+.thumbnailWrapper {
+  width: 56px;
+  height: 80px;
+  min-width: 56px;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnailPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  font-size: 1.2rem;
+}
+
+.durationBadge {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  font-size: 0.6rem;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Video Info ──────────────────────────────────────────────────────────── */
+
+.videoInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+}
+
+.videoTitle {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #ddd;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.videoMeta {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  color: #666;
+}
+
+/* ─── Actions ─────────────────────────────────────────────────────────────── */
+
+.videoActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+  align-self: center;
+}
+
+.actionButton {
+  width: 26px;
+  height: 26px;
+  border: none !important;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background: rgba(255, 107, 107, 0.2) !important;
+  color: #ff6b6b;
+}
+
+/* ─── Empty State ─────────────────────────────────────────────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
+  margin: 0.2rem 0;
+  font-size: 0.85rem;
+}
+
+.emptyHint {
+  font-size: 0.75rem !important;
+  color: #444;
+}
