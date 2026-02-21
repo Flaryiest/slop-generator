@@ -19,16 +19,15 @@ Transform Reddit stories into short-form video, automatically.
 |-------|------------|
 | Frontend | React + Vite + TypeScript |
 | Video Processing | ffmpeg.wasm (WebAssembly) |
-| TTS | Web Speech API |
+| TTS | Piper TTS (local ONNX model) |
 | Backend | Node.js + Express |
-| Database | PostgreSQL + Prisma |
+| Storage | IndexedDB (client-side) |
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+
-- PostgreSQL database
 - A background video file (see below)
 
 ### 1. Clone and Install
@@ -46,21 +45,9 @@ cd ../web
 npm install
 ```
 
-### 2. Configure Database
+### 2. Add Background Video
 
-```bash
-cd api
-
-# Create .env file
-echo "DATABASE_URL=postgresql://user:password@localhost:5432/slop_generator" > .env
-
-# Run migrations
-npx prisma migrate dev
-```
-
-### 3. Add Background Video
-
-Place a video file at `web/public/background.mp4`. 
+Place a video file at `web/public/background.mp4`.
 
 Recommended sources:
 - [Pexels](https://www.pexels.com/videos/) (free stock videos)
@@ -68,7 +55,7 @@ Recommended sources:
 
 Popular choices: Minecraft parkour, Subway Surfers, satisfying videos.
 
-### 4. Start Development
+### 3. Start Development
 
 ```bash
 # Terminal 1 - API
@@ -94,27 +81,30 @@ Visit http://localhost:5173
 ## Project Structure
 
 ```
-slop-generator/
+reely/
 ├── api/                    # Backend API
 │   ├── src/
 │   │   ├── routes/
-│   │   │   ├── video.routes.ts   # Video generation endpoints
-│   │   │   └── auth.routes.ts    # Authentication
+│   │   │   └── video.routes.ts   # Reddit scraping & TTS endpoints
 │   │   ├── services/
 │   │   │   └── reddit.service.ts # Reddit scraping
 │   │   └── app.ts
-│   └── prisma/
-│       └── schema.prisma
 │
 ├── web/                    # Frontend React app
 │   ├── src/
 │   │   ├── pages/
 │   │   │   ├── home/            # Landing page
 │   │   │   └── generate/        # Video generator
+│   │   ├── components/
+│   │   │   ├── sidebar/         # Video library sidebar
+│   │   │   └── icons/           # SVG icon components
 │   │   └── services/
-│   │       ├── ffmpeg.service.ts    # Video composition
-│   │       ├── tts.service.ts       # Text-to-speech
-│   │       └── subtitle.service.ts  # Subtitle generation
+│   │       ├── ffmpeg.service.ts       # Video composition
+│   │       ├── tts.service.ts          # Text-to-speech
+│   │       ├── subtitle.service.ts     # Subtitle generation
+│   │       ├── videoStorage.service.ts # IndexedDB persistence
+│   │       ├── sorting.service.ts      # Sort algorithms
+│   │       └── search.service.ts       # Trie search & filters
 │   └── public/
 │       └── background.mp4    # Your background video
 │
@@ -123,7 +113,7 @@ slop-generator/
 
 ## Known Limitations
 
-- **Browser TTS**: Uses Web Speech API which doesn't capture audio directly. For production, integrate a cloud TTS service (ElevenLabs, Google Cloud TTS).
+- **Browser TTS**: Uses Piper TTS locally; quality depends on the ONNX voice model.
 - **Processing Time**: Video generation takes 30-60 seconds depending on content length.
 - **Browser Support**: Requires modern browser with SharedArrayBuffer support.
 

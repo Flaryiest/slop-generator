@@ -1,9 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import cookieParser from 'cookie-parser';
 import api from './routes/api.routes.js';
-import auth from './routes/auth.routes.js';
 import video from './routes/video.routes.js';
 const app = express();
 const port = process.env.PORT || 8080;
@@ -15,12 +13,10 @@ app.use(
   })
 );
 
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', api);
-app.use('/auth', auth);
 app.use('/video', video);
 
 app.listen(port, () => {
