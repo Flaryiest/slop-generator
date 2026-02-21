@@ -1,15 +1,17 @@
-# 🎬 Slop Generator
+# Reely
 
-Transform Reddit stories into viral Instagram Reels automatically.
+Transform Reddit stories into short-form video, automatically.
 
 ## Features
 
-- 📖 **Reddit Scraping**: Paste any Reddit post URL to extract the story
-- 🎙️ **Auto Narration**: Text-to-speech reads the story aloud
-- 📝 **Dynamic Subtitles**: Word-by-word subtitles synced with speech
-- 📱 **Reel-Ready**: 9:16 vertical format perfect for Instagram/TikTok
-- ⏱️ **60s Limit**: Automatically truncates content to fit Reels format
-- 🖥️ **Browser-Based**: All video processing happens in your browser (no server needed for FFmpeg)
+- **Reddit Scraping** — Paste any Reddit post URL to extract the story
+- **Auto Narration** — Text-to-speech reads the story aloud via Piper TTS
+- **Dynamic Subtitles** — Word-by-word subtitles synced with speech
+- **Reel-Ready** — 9:16 vertical format for Instagram / TikTok
+- **60s Limit** — Automatically truncates content to fit short-form
+- **Browser-Based** — All video processing happens client-side with ffmpeg.wasm
+- **Local Library** — Videos are saved to IndexedDB and browsable in a sidebar
+- **Search & Filter** — Trie-based prefix search, date range filtering, multiple sort algorithms
 
 ## Tech Stack
 

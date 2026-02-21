@@ -5,7 +5,7 @@
  * Supports CRUD operations with blob storage for the actual MP4 data.
  */
 
-const DB_NAME = 'slop-generator-db';
+const DB_NAME = 'reely-db';
 const DB_VERSION = 1;
 const VIDEO_STORE = 'videos';
 const THUMBNAIL_STORE = 'thumbnails';

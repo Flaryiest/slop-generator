@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.css';
+import { LinkIcon, MicrophoneIcon, FilmIcon, SparklesIcon } from '@/components/icons/Icons';
 
 export default function IndexPage() {
   const navigate = useNavigate();
@@ -7,26 +8,35 @@ export default function IndexPage() {
   return (
     <div className={styles.container}>
       <div className={styles.hero}>
-        <h1 className={styles.title}>Slop Generator</h1>
+        <div className={styles.logoMark}>
+          <SparklesIcon size={32} color="var(--rose-400)" />
+        </div>
+        <h1 className={styles.title}>Reely</h1>
         <p className={styles.subtitle}>
-          Transform Reddit stories into viral Instagram Reels in seconds
+          Transform Reddit stories into polished Instagram Reels — instantly
         </p>
         
         <div className={styles.features}>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}></span>
-            <h3>Paste Reddit Link</h3>
-            <p>Just paste any Reddit post URL</p>
+            <div className={styles.featureIconWrapper}>
+              <LinkIcon size={28} color="var(--rose-400)" />
+            </div>
+            <h3>Paste a Link</h3>
+            <p>Drop any Reddit post URL and we handle the rest</p>
           </div>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}></span>
+            <div className={styles.featureIconWrapper}>
+              <MicrophoneIcon size={28} color="var(--rose-400)" />
+            </div>
             <h3>Auto Narration</h3>
-            <p>Text-to-speech reads the story</p>
+            <p>Natural text-to-speech brings the story to life</p>
           </div>
           <div className={styles.feature}>
-            <span className={styles.featureIcon}></span>
-            <h3>Ready for Reels</h3>
-            <p>9:16 format with subtitles</p>
+            <div className={styles.featureIconWrapper}>
+              <FilmIcon size={28} color="var(--rose-400)" />
+            </div>
+            <h3>Reel-Ready</h3>
+            <p>9:16 vertical video with synced subtitles</p>
           </div>
         </div>
 
@@ -34,7 +44,7 @@ export default function IndexPage() {
           className={styles.ctaButton}
           onClick={() => navigate('/generate')}
         >
-          Start Generating
+          Start Creating
         </button>
       </div>
     </div>

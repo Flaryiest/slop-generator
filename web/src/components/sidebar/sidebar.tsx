@@ -28,6 +28,17 @@ import {
   type FilterConfig,
 } from '@/services/search.service';
 import { downloadBlob } from '@/services/ffmpeg.service';
+import {
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  FilterIcon,
+  PlayIcon,
+  DownloadIcon,
+  TrashIcon,
+  VideoIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+} from '@/components/icons/Icons';
 
 interface SidebarProps {
   onVideoSelect?: (blob: Blob, metadata: VideoMetadata) => void;
@@ -138,7 +149,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
     e.stopPropagation();
     const blob = await getVideoBlob(metadata.id);
     if (blob) {
-      const filename = `reddit-reel-${metadata.subreddit}-${metadata.id}.mp4`;
+      const filename = `reely-${metadata.subreddit}-${metadata.id}.mp4`;
       downloadBlob(blob, filename);
     }
   };
@@ -174,7 +185,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
           onClick={() => setIsCollapsed(false)}
           title="Show video library"
         >
-          <span className={styles.expandIcon}>▶</span>
+          <span className={styles.expandIcon}><ChevronRightIcon size={14} /></span>
           <span className={styles.expandBadge}>{videos.length}</span>
         </button>
       </div>
@@ -193,7 +204,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
             onClick={() => setIsCollapsed(true)}
             title="Collapse sidebar"
           >
-            ◀
+            <ChevronLeftIcon size={14} />
           </button>
         </div>
       </div>
@@ -212,7 +223,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
           onClick={() => setShowFilters(!showFilters)}
           title="Toggle filters"
         >
-          ⚙
+          <FilterIcon size={14} />
         </button>
       </div>
 
@@ -256,7 +267,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
                 onClick={toggleSortDirection}
                 title={sortDirection === 'asc' ? 'Ascending' : 'Descending'}
               >
-                {sortDirection === 'asc' ? '↑' : '↓'}
+                {sortDirection === 'asc' ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
               </button>
             </div>
           </div>
@@ -287,7 +298,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
 
         {!isLoading && filteredVideos.length === 0 && videos.length === 0 && (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>🎬</div>
+            <div className={styles.emptyIcon}><VideoIcon size={32} /></div>
             <p>No videos yet</p>
             <p className={styles.emptyHint}>Generated videos will appear here</p>
           </div>
@@ -326,7 +337,7 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
                   className={styles.thumbnail}
                 />
               ) : (
-                <div className={styles.thumbnailPlaceholder}>▶</div>
+                <div className={styles.thumbnailPlaceholder}><PlayIcon size={16} /></div>
               )}
               <span className={styles.durationBadge}>
                 {formatDuration(video.duration)}
@@ -355,14 +366,14 @@ export default function Sidebar({ onVideoSelect, refreshTrigger }: SidebarProps)
                 onClick={(e) => handleDownload(e, video)}
                 title="Download"
               >
-                ⬇
+                <DownloadIcon size={12} />
               </button>
               <button
                 className={`${styles.actionButton} ${styles.deleteButton}`}
                 onClick={(e) => handleDelete(e, video.id)}
                 title="Delete"
               >
-                ✕
+                <TrashIcon size={12} />
               </button>
             </div>
           </div>

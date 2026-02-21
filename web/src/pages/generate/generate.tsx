@@ -171,7 +171,7 @@ export default function GeneratePage() {
   const handleDownload = () => {
     if (!videoBlob || !redditData) return;
     
-    const filename = `reddit-reel-${redditData.subreddit}-${Date.now()}.mp4`;
+    const filename = `reely-${redditData.subreddit}-${Date.now()}.mp4`;
     downloadBlob(videoBlob, filename);
   };
 
@@ -237,8 +237,8 @@ export default function GeneratePage() {
       />
       <div className={styles.container}>
       <header className={styles.header}>
-        <h1>Reddit Reel Generator</h1>
-        <p>Transform Reddit stories into viral Instagram Reels</p>
+        <h1>Reely</h1>
+        <p>Transform Reddit stories into short-form video</p>
       </header>
 
       <div className={styles.steps}>
@@ -281,7 +281,7 @@ export default function GeneratePage() {
                 {isLoading ? 'Loading...' : 'Fetch Post'}
               </button>
             </div>
-            <p style={{ color: '#666', fontSize: '0.9rem' }}>
+            <p className={styles.hint}>
               Example: https://reddit.com/r/tifu/comments/abc123/...
             </p>
           </>
