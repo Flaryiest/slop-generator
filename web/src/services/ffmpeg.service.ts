@@ -59,29 +59,6 @@ export async function loadFFmpeg(onProgress?: ProgressCallback): Promise<FFmpeg>
 const FONT_URL = '/Roboto-Bold.ttf';
 
 /**
- * Convert seconds to SRT timestamp format (HH:MM:SS,mmm)
- */
-function toSrtTimestamp(seconds: number): string {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-  const millis = Math.round((seconds % 1) * 1000);
-  
-  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')},${millis.toString().padStart(3, '0')}`;
-}
-
-/**
- * Generate SRT subtitle content from subtitle entries
- */
-function generateSrtContent(entries: SubtitleEntry[]): string {
-  return entries.map((entry, index) => {
-    const startTime = toSrtTimestamp(entry.startTime);
-    const endTime = toSrtTimestamp(entry.endTime);
-    return `${index + 1}\n${startTime} --> ${endTime}\n${entry.text}\n`;
-  }).join('\n');
-}
-
-/**
  * Generate ASS subtitle content with styling (better control than SRT)
  */
 function generateAssContent(entries: SubtitleEntry[]): string {

@@ -1,0 +1,68 @@
+appId: com.ericm.reely
+productName: Reely
+copyright: Copyright © 2026 ericm
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist-electron/**/*
+  - "!node_modules"
+  - "!api"
+  - "!web"
+  - "!electron"
+  - "!scripts"
+
+extraResources:
+  # Vite-built frontend
+  - from: web/dist
+    to: web/dist
+    filter:
+      - "**/*"
+
+  # Bundled API server
+  - from: dist-electron/api-bundle
+    to: api-bundle
+    filter:
+      - "**/*"
+
+  # Piper TTS binary + models + espeak data
+  - from: api/piper
+    to: piper
+    filter:
+      - "**/*"
+
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  icon: build/icon.ico
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Reely
+
+mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
+  icon: build/icon.icns
+  category: public.app-category.video
+
+linux:
+  target:
+    - target: AppImage
+      arch:
+        - x64
+  icon: build/icon.png
+  category: Video

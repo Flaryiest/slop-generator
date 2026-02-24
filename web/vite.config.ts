@@ -4,6 +4,8 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  // Use relative paths so the build works with Electron's file:// protocol
+  base: './',
   resolve: {
     alias: [
       { find: '@', replacement: '/src' },

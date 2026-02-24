@@ -1,9 +1,10 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import { createHashRouter, createRoutesFromElements, Route } from 'react-router-dom';
 
 import IndexPage from '@/pages/home/index';
 import GeneratePage from '@/pages/generate/generate';
 
-const router = createBrowserRouter(createRoutesFromElements(<>
+// Use hash router so routes work with both file:// (Electron) and http://
+const router = createHashRouter(createRoutesFromElements(<>
   <Route path="/" element={<IndexPage/>} />
   <Route path="/generate" element={<GeneratePage/>} />
 </>));

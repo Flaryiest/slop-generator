@@ -1,0 +1,27 @@
+{
+  "name": "reely",
+  "version": "1.0.0",
+  "description": "Transform Reddit stories into short-form video",
+  "main": "dist-electron/main.js",
+  "author": "ericm",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n api,web,electron -c blue,green,magenta \"cd api && npm run dev\" \"cd web && npm run dev\" \"wait-on http://localhost:5173 http://localhost:8080/api/test && electron .\"",
+    "dev:web": "cd web && npm run dev",
+    "dev:api": "cd api && npm run dev",
+    "build": "npm run build:web && npm run build:electron",
+    "build:web": "cd web && npm run build",
+    "build:electron": "node scripts/build-electron.js",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "cd api && npm install && cd ../web && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.0",
+    "esbuild": "^0.24.0",
+    "wait-on": "^8.0.0"
+  }
+}

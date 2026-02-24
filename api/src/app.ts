@@ -19,8 +19,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', api);
 app.use('/video', video);
 
-app.listen(port, () => {
-  console.log('Server is running on port: ' + String(port));
-});
+// Only auto-listen when run directly (not when imported by Electron)
+const isDirectRun = process.argv[1]?.includes('app');
+if (isDirectRun) {
+  app.listen(port, () => {
+    console.log('Server is running on port: ' + String(port));
+  });
+}
+
+/** Start listening programmatically (used by Electron main process) */
+export function startServer(overridePort?: number): void {
+  const p = overridePort ?? port;
+  app.listen(p, () => {
+    console.log('Server is running on port: ' + String(p));
+  });
+}
 
 export default app;

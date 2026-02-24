@@ -2,7 +2,7 @@ import { spawn } from 'child_process';
 import path from 'path';
 import fs from 'fs/promises';
 import os from 'os';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 
 // Get __dirname equivalent in ESM
@@ -10,7 +10,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Path to Piper executable and model
-const PIPER_DIR = path.join(__dirname, '../../piper/piper');
+// In Electron production builds, PIPER_DIR_OVERRIDE points to the bundled piper
+const PIPER_DIR = process.env.PIPER_DIR_OVERRIDE || path.join(__dirname, '../../piper/piper');
 const PIPER_EXE = path.join(PIPER_DIR, 'piper.exe');
 const VOICE_MODEL = path.join(PIPER_DIR, 'en_US-lessac-medium.onnx');
 
@@ -35,7 +36,7 @@ function estimateDuration(text: string): number {
 export async function generateSpeech(text: string): Promise<TTSResult> {
   // Create temp file for output
   const tempDir = os.tmpdir();
-  const outputFile = path.join(tempDir, `piper-${uuidv4()}.wav`);
+  const outputFile = path.join(tempDir, `piper-${crypto.randomUUID()}.wav`);
   
   return new Promise((resolve, reject) => {
     const args = [
